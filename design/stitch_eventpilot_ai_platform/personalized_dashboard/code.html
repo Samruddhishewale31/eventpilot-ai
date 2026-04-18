@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Inter:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#25005a",
+                    "surface-container-high": "#e6e8ea",
+                    "outline": "#777587",
+                    "secondary": "#712ae2",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#8a4cfc",
+                    "tertiary-fixed": "#e3dfff",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#dad7ff",
+                    "primary-container": "#4f46e5",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181445",
+                    "surface-tint": "#4d44e3",
+                    "background": "#f7f9fb",
+                    "outline-variant": "#c7c4d8",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#444173",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#5d5b8e",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#c4c1fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#dcd8ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-container": "#eceef0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary": "#464375",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-variant": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-effect {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-transition {
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-indigo-500/5 flex justify-between items-center px-8 h-20 max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-indigo-600 to-violet-600 bg-clip-text text-transparent">EventPilot AI</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-manrope font-semibold tracking-tight text-indigo-700 border-b-2 border-indigo-600 pb-1" href="#">Dashboard</a>
+<a class="font-manrope font-semibold tracking-tight text-slate-500 hover:text-indigo-500 transition-colors" href="#">Schedule</a>
+<a class="font-manrope font-semibold tracking-tight text-slate-500 hover:text-indigo-500 transition-colors" href="#">Intelligence</a>
+<a class="font-manrope font-semibold tracking-tight text-slate-500 hover:text-indigo-500 transition-colors" href="#">Networking</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-low rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-outline text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search insights..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="h-10 w-10 rounded-full overflow-hidden bg-primary-fixed">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional headshot of a smiling executive wearing a dark blazer in a brightly lit modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWDelbu6waavuaiE1A51qRfQFf5IPE3gxwq120CHDCyqmdQRA4XNR20OGTyCrDgWQ6_sImAfB4gBEQbL52MJmVyK_rgOl7oyMvVXcXGUyNrJZO84gqb6r_Ud_ullFCmIDhKjZfjpltrSWQ4p6XRjmYmndhVgjt3R3P3CYEAiqZrEXiydyaK_uFrGbhQfTjW75u4eNwnjzYO22vBQE2-qJCuohOcewsCMqbASn_ouCSBdNrYc__FsBpKlMnOOfMaFYfYbr5aKk3t-6Q"/>
+</div>
+<button class="hidden md:block bg-gradient-to-br from-indigo-600 to-violet-600 text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg shadow-indigo-500/20 hover:opacity-90 duration-200">Get Insights</button>
+</div>
+</nav>
+<main class="pt-28 pb-12 px-4 md:px-8 max-w-7xl mx-auto space-y-10">
+<header class="relative overflow-hidden p-8 md:p-12 rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="relative z-10 max-w-2xl text-center md:text-left">
+<h1 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Welcome back, Alexander</h1>
+<p class="text-lg opacity-90 font-light leading-relaxed">Your intelligence dashboard is updated with today's peak networking opportunities and 4 high-value sessions matching your AI &amp; Design profile.</p>
+<div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
+<button class="bg-white text-primary px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-surface-bright transition-colors shadow-xl shadow-indigo-900/20">
+<span class="material-symbols-outlined">explore</span> Find Session
+                    </button>
+<button class="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined">group</span> Networking
+                    </button>
+</div>
+</div>
+<div class="relative w-full md:w-1/3 aspect-square max-w-[280px]">
+<div class="absolute inset-0 bg-white/10 rounded-full animate-pulse"></div>
+<img class="w-full h-full object-cover rounded-xl shadow-2xl rotate-3" data-alt="vibrant abstract digital representation of networking nodes and data pathways glowing in purple and blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Ko3tfo6s1jxjc0yZPR3dSoCQjv2_sncBXxOGfAxBfjFxS5o7haiJYUHsWXcVlHiU5Dqnr5KynAcMdATmfnQHO8OaNwooeMCPJv2lurbluObUcf2pQpHKGTYoLPSZxME6ThNhj4fgUuOfVGrMlQGeMs5vFrfExI8Ubr8DoREmXQR0pUm89a0hfVkdutbTTGoGa2pvlNIBog54u4V78iUSTlmqqqtU7Zx64rdQP7jIKh0WAdU6n4NmBS-a9xoS2DYY382nmucup5rd"/>
+</div>
+</header>
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-8">
+<div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline text-2xl font-bold text-on-surface">Recommended for You</h2>
+<button class="text-primary font-bold text-sm hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="modern auditorium with blue lighting and a large screen displaying futuristic technology graphics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsQj5wcim3i-5ld_CB4gBXyw5TOUJW1yHNMAu8TpGSpCrajh3Ia6XJQ0v2rqPivj74Grjb4foe9ogyfXEgVcPok0nNtBsk8c7wCDwncgQ9niDC5xAR_GFBmbCLrGJ3orP97emDHUB43WWpH75FTDQEF7-W4Pt8EqOFo79GjHsMGidAKX9g_6po8jJ7iTzqFAHRLGfLUtNJpBEDdMROyoeWnsRG8bCu1YHDE-eTOiIdXaHXqGD3MLhpCkLjXVKZrq5Boj1-X510nA4-"/>
+<div class="absolute top-4 right-4 bg-secondary-container/90 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Live Now</div>
+</div>
+<div class="p-6">
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 block">AI ETHICS • 10:00 AM</span>
+<h3 class="font-headline text-lg font-bold mb-3 leading-tight">Navigating the Future of Algorithmic Governance</h3>
+<p class="text-on-surface-variant text-sm mb-6 line-clamp-2">Join industry leaders for an in-depth discussion on the ethical implications of autonomous systems in event management.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-400"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary">+42</div>
+</div>
+<button class="text-primary material-symbols-outlined">bookmark_add</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional business group collaborating in a bright workshop space with post-it notes and glass walls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe3j0MnJSfoLiMckQn2pJg0Lf_6uAuI9EDaSpN9c-yG31O1g6ne3kS5etUnG4XNMeSUHZR4aaGlo2A3rfz_CSyuJ2cU6pIh_YfjDG5blaM99hSgFPSCHaEH0p47bi__OSpWJZYEuz1oFDcLVxJu6H14VT96VC51xBN09tMop3FgDd5v9LNFX8N6newjcp2OPRufev_gHoOCG0h5NxjhWqFi_WJ0LUmO3ZM-Ci2oB4ivVkbjNaf1sac0UKbO4pPbKZqWORGs4on-wL9"/>
+<div class="absolute top-4 left-4 bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">High Match</div>
+</div>
+<div class="p-6">
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 block">WORKSHOP • 02:30 PM</span>
+<h3 class="font-headline text-lg font-bold mb-3 leading-tight">Design Thinking for Data-Driven Experiences</h3>
+<p class="text-on-surface-variant text-sm mb-6 line-clamp-2">Practical strategies to bridge the gap between complex analytics and human-centric UI design.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary">+12</div>
+</div>
+<button class="text-primary material-symbols-outlined">bookmark_add</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline text-2xl font-bold text-on-surface">Live Announcement Feed</h2>
+</div>
+<div class="space-y-4">
+<div class="flex gap-6 p-6 bg-secondary-container/5 rounded-xl border-l-4 border-secondary-container">
+<div class="shrink-0 w-12 h-12 bg-secondary-container/10 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Main Stage: Surprise Keynote Added</h4>
+<span class="text-xs text-on-surface-variant font-medium">Just now</span>
+</div>
+<p class="text-on-surface-variant text-sm">A surprise guest from OpenAI will be joining the 4:00 PM panel. Seats are limited, RSVP now via the app.</p>
+</div>
+</div>
+<div class="flex gap-6 p-6 bg-surface-container-low rounded-xl">
+<div class="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">info</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Lunch Service Update</h4>
+<span class="text-xs text-on-surface-variant font-medium">15m ago</span>
+</div>
+<p class="text-on-surface-variant text-sm">Gourmet catering is now available in the North Hall. Dietary options clearly marked.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="lg:col-span-4 space-y-8">
+<div class="bg-surface-container-low rounded-xl p-8">
+<h2 class="font-headline text-xl font-bold mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">calendar_today</span> Your Agenda
+                    </h2>
+<div class="space-y-8 relative">
+<div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-outline-variant opacity-30"></div>
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-secondary shadow-[0_0_12px_rgba(113,42,226,0.5)] animate-pulse"></div>
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-1 block">Ongoing • 11:30 AM</span>
+<h4 class="font-bold text-on-surface text-sm mb-1">Scaling Multi-cloud Infrastructures</h4>
+<p class="text-xs text-on-surface-variant">Hall B, Second Floor</p>
+</div>
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-outline-variant/50"></div>
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-1 block">1:00 PM</span>
+<h4 class="font-bold text-on-surface text-sm mb-1">Lunch &amp; Networking Break</h4>
+<p class="text-xs text-on-surface-variant">Executive Lounge</p>
+</div>
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-outline-variant/50"></div>
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-1 block">2:30 PM</span>
+<h4 class="font-bold text-on-surface text-sm mb-1">AI in Creative Workflows</h4>
+<p class="text-xs text-on-surface-variant">Innovation Hub</p>
+</div>
+</div>
+<button class="w-full mt-10 py-4 rounded-full border-2 border-outline-variant/30 text-sm font-bold hover:bg-surface-container-high transition-colors">
+                        Full Schedule
+                    </button>
+</div>
+<div class="bg-white rounded-xl shadow-lg shadow-indigo-500/5 p-8">
+<h2 class="font-headline text-xl font-bold mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">hub</span> Networking
+                    </h2>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a woman with glasses and dark hair smiling in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsCibhyWX88xYpBGFVetSZ0TXMQAk_YJ62XurcWtaeNXcVfJV8fb5YpEJwzV6spBjD3ki3QSoGFciEwiY_MSfZlWPAaGa_LvNrKOOJ-mwSlSLE4gkV9IZoRb1130K7xCZO2lMDeKlphNzjv7UtvYrYeepa5O_n5T7hqG0REUFfVhtNXUGvh5XCTsNYKVWAh9TsSVTMmiBWb5EGMPAcJ5AdrLn0vBzynQ_a6M1E_IrCH1HeOf6zOcQkrfznejAX3Ule6GSQyEtXW7_1"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm">Sarah Chen</h4>
+<p class="text-[10px] text-on-surface-variant font-medium">Lead AI Engineer @ TechScale</p>
+</div>
+<button class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full text-lg">chat</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up of a confident man with short hair and a beard, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNzv75wDQ8N0wsKV1Kj1mdr-3uZOkiP6n5wcSYiT_QVOdTFV4sR8y3RZ_Yv5symzW151ILjSSglu52Io1ExA6Vhy70ogtuy5vN-kAMTf-xQ5ACqCqinPX1i8lzFWT2kw4bv6ND9MS9vs89sarNCCtGVICIwsvrnmr6SVXbQfBKXnkBCNpffBbO9-KmkH2PcvxUy-4BiVQxJBsPukSrQTbze4FmwOv6tmBvbSrivmT0qofJEwsBYvABANujCatxRGPjOMnBxfODYs0G"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm">Marcus Thorne</h4>
+<p class="text-[10px] text-on-surface-variant font-medium">Head of Product @ Nexus</p>
+</div>
+<button class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full text-lg">chat</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="vibrant portrait of a woman in business casual attire with bright studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPmwTS_VO5rnkgCikjH6Qzweca_g6MQaQXDiW1SRrT_0zs9ytemz8uIFfUI7GEKT0NxBXF385tdKd_WjDD4_RmLYWK2XxX3Wj7NReVN-Uc1IdTucDygYalPl6YN6bwCjfoG-bDJTYP-FcuFn3bHNFYpDBaA8PPsVUScrqGO7jrLwcqXYa_r0Bg9moAEAVmREGuIHUmPBI1NgmyT5bAlj3prPP-yrKV7fgg7bnJJSlOdFSy0Q9wb5QjN3bq54nP5FRS4wA1xfAp4Dwr"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm">Elena Rodriguez</h4>
+<p class="text-[10px] text-on-surface-variant font-medium">UX Director @ CloudForge</p>
+</div>
+<button class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full text-lg">chat</button>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-low rounded-xl">
+<p class="text-xs text-center text-on-surface-variant leading-relaxed">
+<span class="font-bold text-primary">Pro-tip:</span> Based on your profile, we suggest visiting the "Enterprise AI" booth at 3PM.
+                        </p>
+</div>
+</div>
+</aside>
+</section>
+</main>
+<footer class="bg-slate-50 w-full py-12 px-8">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto border-t border-slate-200 pt-12">
+<div class="mb-6 md:mb-0">
+<span class="text-lg font-bold text-slate-900">EventPilot AI</span>
+<p class="font-inter text-sm text-slate-500 mt-2">© 2024 EventPilot AI. Precision Event Intelligence.</p>
+</div>
+<div class="flex flex-wrap gap-6 justify-center">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm" href="#">API Documentation</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform md:hidden">
+<span class="material-symbols-outlined">help</span>
+</button>
+</body></html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Networking | EventPilot AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#25005a",
+                    "surface-container-high": "#e6e8ea",
+                    "outline": "#777587",
+                    "secondary": "#712ae2",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#8a4cfc",
+                    "tertiary-fixed": "#e3dfff",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#dad7ff",
+                    "primary-container": "#4f46e5",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181445",
+                    "surface-tint": "#4d44e3",
+                    "background": "#f7f9fb",
+                    "outline-variant": "#c7c4d8",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#444173",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#5d5b8e",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#c4c1fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#dcd8ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-container": "#eceef0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary": "#464375",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-variant": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-transition { transition: background-color 0.3s ease; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .asymmetric-glow {
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-indigo-500/5 h-20">
+<nav class="flex justify-between items-center px-8 h-full max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-indigo-600 to-violet-600 bg-clip-text text-transparent font-headline tracking-tight">EventPilot AI</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 font-medium hover:text-indigo-500 transition-colors font-headline" href="#">Dashboard</a>
+<a class="text-slate-500 font-medium hover:text-indigo-500 transition-colors font-headline" href="#">Schedule</a>
+<a class="text-slate-500 font-medium hover:text-indigo-500 transition-colors font-headline" href="#">Intelligence</a>
+<a class="text-indigo-700 border-b-2 border-indigo-600 pb-1 font-semibold tracking-tight font-headline" href="#">Networking</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-primary-container" placeholder="Search professionals..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors">settings</button>
+<button class="px-6 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-semibold text-sm hover:opacity-80 duration-200">Get Insights</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="close-up portrait of a professional woman with a friendly smile, soft natural lighting, modern office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBgqYi_sLyToQbbUhW56_jVhFkGc3wKgxCYDqaBS4DDvBdWH_AP7RxirvgDGPcLkj-lx3cthUyGxw4HQB57IAc05wlj4iG64Xo0BXx3Dv3O2RIdnFvWtMN9PEQnT4rkDA_G-rPmtSrXFf0w-jLnEM2lhh0bYgRA44ggmIUROMHqrE3r-1pX4qWtKcBO_eRRojsp9Goq-coZroXRHE3SFd8gRmxtY447Vbd7J5qSXgf-lMuRMC-89bJnH2RCZV0ndngwaz9oUxNFAwW"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="pt-28 pb-20 px-8 max-w-7xl mx-auto relative">
+<div class="asymmetric-glow"></div>
+<!-- Hero Section & Filters -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<span class="text-xs font-bold tracking-[0.1em] text-secondary uppercase mb-2 block">AI Matching Engine</span>
+<h1 class="text-5xl font-extrabold font-headline text-on-background tracking-tighter leading-tight mb-4">
+                        Meet Your Next <span class="text-primary italic">Strategic Partner</span>.
+                    </h1>
+<p class="text-on-surface-variant text-lg max-w-xl">
+                        Our intelligence engine analyzed 2,400+ attendees to find connections that align with your current project: <span class="font-semibold text-on-surface">"Sustainable Urban Mobility"</span>.
+                    </p>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-sm text-sm font-semibold text-on-surface-variant hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[20px]">filter_list</span> Filters
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-sm text-sm font-semibold text-on-surface-variant hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[20px]">domain</span> Industry
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest rounded-full shadow-sm text-sm font-semibold text-on-surface-variant hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[20px]">psychology</span> Skills
+                    </button>
+</div>
+</div>
+</section>
+<!-- Recommended Connections Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex items-center gap-1 bg-secondary-container/10 px-3 py-1 rounded-full border border-secondary-container/20">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-wider">Live Now</span>
+</div>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-20 h-20 rounded-xl overflow-hidden shadow-lg transform group-hover:scale-105 transition-transform">
+<img alt="Attendee" class="w-full h-full object-cover" data-alt="professional portrait of a man in his 30s with glasses, wearing a neutral blazer, clean studio lighting, high resolution" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbanYfRuzKHnQVqfljUKDaoxNHWgwXX03FkqeEd8azEwWhxlvluGFGpag3S3uRjnjELw27ql31p8JKQCkBOeem4sT-7RpJkJivM_Cw3Ang19DqyRKGf0Se92De53WETuE6CPf_uEixn6GDuLYo_BZET0WUnnEymnpx_FhgUUbz0zIOnGY97tx-2FH7W_wBRDpgq9JVamjmt_sPn3l_68a4sg0jF7dJvbNfuArEkS4ndySVJAx1HcW3hAl0cCFC2COQE7qACSCfnlH5"/>
+</div>
+<div>
+<h3 class="text-xl font-bold font-headline text-on-surface leading-tight">Marcus Chen</h3>
+<p class="text-sm text-on-surface-variant mb-2">Lead Architect @ UrbanFlow</p>
+<div class="flex flex-wrap gap-1">
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">AI Mobility</span>
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">EV Infrastructure</span>
+</div>
+</div>
+</div>
+<!-- AI Insight Box -->
+<div class="bg-secondary-container/5 rounded-lg p-4 mb-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 backdrop-blur-sm pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Why it matches
+                        </div>
+<p class="text-xs text-on-surface-variant italic">"Both of you recently published research on decentralized power grids for municipal fleets."</p>
+</div>
+</div>
+<div class="space-y-3">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">Icebreakers</p>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors group/btn">
+                        "I saw your recent work on the Berlin EV trial..."
+                    </button>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors group/btn">
+                        "What's your take on the new EU mobility regulations?"
+                    </button>
+</div>
+<button class="mt-6 w-full py-3 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span> Connect
+                </button>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex items-center gap-1 bg-surface-container-high px-3 py-1 rounded-full">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Away</span>
+</div>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-20 h-20 rounded-xl overflow-hidden shadow-lg transform group-hover:scale-105 transition-transform">
+<img alt="Attendee" class="w-full h-full object-cover" data-alt="portrait of a confident woman entrepreneur in creative workspace, bright soft lighting, cinematic feel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0YfvOMXDMGKUxQZ9x3D7INqxiJEFGxcKYW_bofDaLH_8rGR8k506kG6zyd9fWe9vgrh3JQT2E-ZuJWgT6e-Rz6vjGcAQMvyCiKIUlQZPIeNqFfm_omP4lCdOYqaPGDuoy229iK-3zTe7Cv2xpUUBn-yrU5ElXOzIrB1Pbno7ycX4vT9kx7tSGpATvoMhBrjYPW1zHoV6Ka5Jq3sh6kRpCPVv3J2H5f5UBtS3HHbIDEY62IvCTv89nGIRu7SdXmRNgSXSbtDXHcODH"/>
+</div>
+<div>
+<h3 class="text-xl font-bold font-headline text-on-surface leading-tight">Sarah Jenkins</h3>
+<p class="text-sm text-on-surface-variant mb-2">VC Partner @ Green Horizon</p>
+<div class="flex flex-wrap gap-1">
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">Sustainability</span>
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">Series A</span>
+</div>
+</div>
+</div>
+<div class="bg-secondary-container/5 rounded-lg p-4 mb-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 backdrop-blur-sm pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Why it matches
+                        </div>
+<p class="text-xs text-on-surface-variant italic">"Sarah is actively looking for mobility startups with strong ESG foundations."</p>
+</div>
+</div>
+<div class="space-y-3">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">Icebreakers</p>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors">
+                        "Your talk on ESG reporting was insightful..."
+                    </button>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors">
+                        "We are solving the same data gap you mentioned."
+                    </button>
+</div>
+<button class="mt-6 w-full py-3 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span> Schedule Meet
+                </button>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex items-center gap-1 bg-secondary-container/10 px-3 py-1 rounded-full border border-secondary-container/20">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-wider">Live Now</span>
+</div>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-20 h-20 rounded-xl overflow-hidden shadow-lg transform group-hover:scale-105 transition-transform">
+<img alt="Attendee" class="w-full h-full object-cover" data-alt="candid shot of a young male professional laughing, tech office environment, natural bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHCmzOLEqdntNAy7dsvetpYvrSG4OZCHiHM3K24S0oGTWs8EEK-WVyb1P4RpmZOtSVPaMFf3Bg_1rblc6HmkFhvJY26cHeanVAxRIk5mfStP4jzzIV35G-GUvQPJ_UoaAjVajUbFZA1rxhVpnyXIX1fY8eX-PcG2pcUID2YGg9W3OvTP9ZKEbrzKGNZdSMie1p80j4qViOGhw4DBD9N2Fei4riLK_Gd5SFy8UHTDYrPPCmzHFqsI71N3tdrriO55_8sXlr0RB1P7vm"/>
+</div>
+<div>
+<h3 class="text-xl font-bold font-headline text-on-surface leading-tight">David Rossi</h3>
+<p class="text-sm text-on-surface-variant mb-2">CTO @ NanoGrid Solutions</p>
+<div class="flex flex-wrap gap-1">
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">Hardware</span>
+<span class="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-surface-container-high rounded text-on-surface-variant uppercase">Scalability</span>
+</div>
+</div>
+</div>
+<div class="bg-secondary-container/5 rounded-lg p-4 mb-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 backdrop-blur-sm pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2 text-primary font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Why it matches
+                        </div>
+<p class="text-xs text-on-surface-variant italic">"Rossi's hardware layer perfectly complements your software optimization stack."</p>
+</div>
+</div>
+<div class="space-y-3">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">Icebreakers</p>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors">
+                        "Your recent GitHub repo on grid latency..."
+                    </button>
+<button class="w-full text-left p-3 rounded-lg border border-outline-variant/15 text-sm text-on-surface-variant hover:bg-primary-container hover:text-white transition-colors">
+                        "How are you handling the thermal spikes?"
+                    </button>
+</div>
+<button class="mt-6 w-full py-3 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span> Connect
+                </button>
+</div>
+</section>
+<!-- Asymmetric Sidebar Widget / Activity Feed -->
+<aside class="mt-20 flex flex-col md:flex-row gap-8 items-stretch">
+<div class="flex-1 glass-card rounded-xl p-8 border border-outline-variant/10">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-black font-headline tracking-tight">Recent Activity</h2>
+<span class="text-primary font-bold text-sm cursor-pointer hover:underline">View all</span>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+<div>
+<p class="text-sm font-semibold">You were mentioned in a roundtable</p>
+<p class="text-xs text-on-surface-variant">4 minutes ago by Elena M.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-2 h-2 rounded-full bg-secondary mt-2"></div>
+<div>
+<p class="text-sm font-semibold">New match found: Dr. Aris Vlahos</p>
+<p class="text-xs text-on-surface-variant">12 minutes ago • 98% Compatibility</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-80 bg-primary-container rounded-xl p-8 text-on-primary-container flex flex-col justify-center shadow-lg shadow-indigo-500/20">
+<span class="material-symbols-outlined text-4xl mb-4">rocket_launch</span>
+<h3 class="text-2xl font-bold font-headline mb-2 leading-tight">Elevate Your Network</h3>
+<p class="text-sm opacity-80 mb-6">Complete your skills profile to unlock deeper AI-driven matching insights.</p>
+<button class="bg-white text-primary font-bold py-3 rounded-full hover:shadow-inner transition-all">Update Skills</button>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 border-t border-slate-200 mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto py-12 px-8">
+<div class="mb-8 md:mb-0">
+<span class="text-lg font-bold text-slate-900 block mb-2">EventPilot AI</span>
+<p class="font-inter text-sm text-slate-500">© 2024 EventPilot AI. Precision Event Intelligence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-inter text-sm hover:underline decoration-indigo-500/30" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-inter text-sm hover:underline decoration-indigo-500/30" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-inter text-sm hover:underline decoration-indigo-500/30" href="#">API Documentation</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-inter text-sm hover:underline decoration-indigo-500/30" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</body></html>

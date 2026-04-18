@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Schedule Planner | EventPilot AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#25005a",
+                    "surface-container-high": "#e6e8ea",
+                    "outline": "#777587",
+                    "secondary": "#712ae2",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#8a4cfc",
+                    "tertiary-fixed": "#e3dfff",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#dad7ff",
+                    "primary-container": "#4f46e5",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181445",
+                    "surface-tint": "#4d44e3",
+                    "background": "#f7f9fb",
+                    "outline-variant": "#c7c4d8",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#444173",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#5d5b8e",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#c4c1fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#dcd8ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-container": "#eceef0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary": "#464375",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-variant": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tonal-transition { transition: background-color 0.3s ease; }
+    </style>
+</head>
+<body class="text-on-background">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-indigo-500/5 flex justify-between items-center px-8 h-20 max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-indigo-600 to-violet-600 bg-clip-text text-transparent">EventPilot AI</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-medium" href="#">Dashboard</a>
+<a class="text-indigo-700 border-b-2 border-indigo-600 pb-1 font-semibold tracking-tight" href="#">Schedule</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-medium" href="#">Intelligence</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors font-medium" href="#">Networking</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-500 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-full font-headline font-semibold text-sm shadow-lg shadow-indigo-500/20 active:opacity-80 duration-200">
+                Get Insights
+            </button>
+</div>
+</nav>
+<main class="pt-28 pb-20 min-h-screen max-w-7xl mx-auto px-8">
+<!-- Header & Filter Bar -->
+<header class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="text-sm font-bold tracking-widest text-primary uppercase mb-2 block">Event Timeline</span>
+<h1 class="text-5xl font-extrabold font-headline text-on-background tracking-tight">Master Schedule</h1>
+</div>
+<div class="flex flex-wrap items-center gap-2 bg-surface-container-low p-1.5 rounded-full">
+<button class="px-6 py-2 rounded-full bg-surface-container-lowest text-on-surface shadow-sm font-semibold text-sm">All</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors font-medium text-sm">Keynotes</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors font-medium text-sm">Workshops</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors font-medium text-sm">Networking</button>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Timeline Sidebar (Time Indicators) -->
+<div class="hidden lg:block lg:col-span-1">
+<div class="sticky top-32 flex flex-col gap-24 py-4">
+<div class="text-right">
+<span class="text-lg font-bold font-headline text-on-surface">09:00</span>
+<span class="text-xs font-bold text-outline block uppercase tracking-tighter">AM</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold font-headline text-on-surface">11:00</span>
+<span class="text-xs font-bold text-outline block uppercase tracking-tighter">AM</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold font-headline text-on-surface">01:00</span>
+<span class="text-xs font-bold text-outline block uppercase tracking-tighter">PM</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold font-headline text-on-surface">03:00</span>
+<span class="text-xs font-bold text-outline block uppercase tracking-tighter">PM</span>
+</div>
+</div>
+</div>
+<!-- Vertical Timeline Content -->
+<div class="lg:col-span-8 relative">
+<!-- Timeline Rail -->
+<div class="absolute left-0 lg:-left-6 top-0 bottom-0 w-px bg-outline-variant opacity-20"></div>
+<div class="space-y-12">
+<!-- Session 1: AI Pick Highlight -->
+<div class="relative pl-8 lg:pl-0">
+<div class="absolute -left-1.5 lg:-left-[1.95rem] top-6 w-3 h-3 rounded-full bg-primary ring-4 ring-primary-fixed-dim shadow-[0_0_12px_rgba(53,37,205,0.4)]"></div>
+<div class="bg-secondary-container/5 rounded-2xl p-px overflow-hidden shadow-sm">
+<div class="bg-surface-container-lowest p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-start">
+<div class="w-full md:w-1/3 aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="futuristic artificial intelligence conference hall with blue neon lighting and holographic displays on stage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv46YDpyw7vOxMWEaVDS5geOXGFkBm9fDjCB1Q8w-6LYwX1pWzsEgUmE1LYxrgyfJ42qq5Ge4v6KFEOAfyVBYB86gGEM7K0j-8B0T1IcMH1UK1Agd44JGE0znTHlRgZailksUVg7vWFT4sPNY6ICmlVf1QBw4VPWvoBCI2g-aRTUpCXO1OC9SVc_1Rhv5eb41w8FuQh7lS2yZcmG7aHucBcRs9lPevTjj15kbUY0zirTaTaS00qNqIq0XYSaFdXTDmeL2b9M9pM0wP"/>
+</div>
+<div class="flex-grow space-y-4">
+<div class="flex items-center gap-3">
+<span class="bg-secondary text-on-secondary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Live Now
+                                        </span>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[14px]">auto_awesome</span> AI Pick
+                                        </span>
+</div>
+<h3 class="text-2xl font-extrabold font-headline text-on-surface">The Generative Frontier: Orchestrating Large Language Models</h3>
+<div class="flex flex-wrap gap-4 text-sm text-on-surface-variant font-medium">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-primary">person</span> Dr. Elena Vance
+                                        </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-primary">meeting_room</span> Grand Ballroom B
+                                        </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-primary">schedule</span> 60 mins
+                                        </span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">A deep dive into the practical deployment of LLMs for enterprise scale. Learn how leading tech titans are bridging the gap between research and production-grade agents.</p>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 py-3 rounded-full font-headline font-bold text-sm hover:opacity-90 transition-opacity">
+                                        Added to Agenda
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Session 2: Conflict Warning -->
+<div class="relative pl-8 lg:pl-0">
+<div class="absolute -left-1.5 lg:-left-[1.95rem] top-6 w-3 h-3 rounded-full bg-outline-variant"></div>
+<div class="bg-surface-container-low/50 rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-start border-l-4 border-error">
+<div class="flex-grow space-y-4">
+<div class="flex items-center gap-3">
+<span class="text-error font-bold text-[10px] uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[16px]">warning</span> Schedule Conflict
+                                    </span>
+</div>
+<h3 class="text-xl font-bold font-headline text-on-surface">Building Trust in Autonomous Systems</h3>
+<div class="flex flex-wrap gap-4 text-sm text-on-surface-variant font-medium">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-outline">person</span> Marcus Thorne
+                                    </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-outline">meeting_room</span> Workshop Hub 3
+                                    </span>
+</div>
+<div class="bg-error-container/20 p-3 rounded-lg text-xs text-on-error-container font-medium">
+                                    This session overlaps with "The Generative Frontier". You may only attend one in person.
+                                </div>
+<div class="flex gap-4 pt-2">
+<button class="px-6 py-2 rounded-full border-2 border-outline-variant text-on-surface-variant font-bold text-xs hover:bg-surface-container-high transition-colors">
+                                        Swap Sessions
+                                    </button>
+<button class="px-6 py-2 rounded-full text-primary font-bold text-xs">
+                                        View Details
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Session 3: Standard Card -->
+<div class="relative pl-8 lg:pl-0">
+<div class="absolute -left-1.5 lg:-left-[1.95rem] top-6 w-3 h-3 rounded-full bg-outline-variant"></div>
+<div class="bg-surface-container-lowest rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-start shadow-sm transition-transform hover:-translate-y-1">
+<div class="flex-grow space-y-4">
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest">Workshop</span>
+</div>
+<h3 class="text-xl font-bold font-headline text-on-surface">Prompt Engineering for Executive Workflows</h3>
+<div class="flex flex-wrap gap-4 text-sm text-on-surface-variant font-medium">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-outline">person</span> Sarah Chen
+                                    </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined !text-[18px] text-outline">meeting_room</span> Studio 404
+                                    </span>
+</div>
+<p class="text-on-surface-variant text-sm line-clamp-2">Master the art of directive communication with AI to automate reporting, strategic planning, and crisis management protocols.</p>
+<button class="bg-surface-container-high text-on-surface px-8 py-3 rounded-full font-headline font-bold text-sm hover:bg-surface-container-highest transition-colors">
+                                    Add to Agenda
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Intelligence & Quick Stats -->
+<div class="lg:col-span-3 space-y-8">
+<!-- AI Assistant Widget -->
+<div class="bg-gradient-to-br from-indigo-900 to-indigo-950 text-white rounded-3xl p-6 shadow-xl shadow-indigo-900/20 relative overflow-hidden">
+<div class="relative z-10 space-y-4">
+<div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<h4 class="text-lg font-bold font-headline leading-tight">Optimizing your day, Alexander.</h4>
+<p class="text-indigo-100/70 text-xs leading-relaxed">Based on your interest in "Vector Databases", I've highlighted 2 more sessions later today.</p>
+<button class="w-full bg-white text-indigo-900 py-3 rounded-xl text-sm font-bold shadow-lg">View Recommendations</button>
+</div>
+<!-- Decorative background element -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-indigo-500/20 blur-3xl rounded-full"></div>
+</div>
+<!-- Capacity Alerts -->
+<div class="bg-surface-container-low rounded-3xl p-6 space-y-4">
+<h5 class="text-xs font-bold text-outline uppercase tracking-widest">Trending Sessions</h5>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-on-surface truncate pr-4">Future of Web 4.0</span>
+<span class="text-[10px] font-bold text-error bg-error-container/20 px-2 py-0.5 rounded">98% Full</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-on-surface truncate pr-4">Zero Knowledge Proofs</span>
+<span class="text-[10px] font-bold text-secondary bg-secondary-fixed/30 px-2 py-0.5 rounded">Trending</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-on-surface truncate pr-4">Edge Computing 101</span>
+<span class="text-[10px] font-bold text-outline bg-outline-variant/20 px-2 py-0.5 rounded">Available</span>
+</div>
+</div>
+</div>
+<!-- Event Map Preview -->
+<div class="rounded-3xl overflow-hidden shadow-sm aspect-square relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="architectural floor plan of a modern convention center with sleek paths and digital kiosks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRqA37MhiFU1x0Yu1LfvimKdg6LmZquxPdBv6qERb2Mkp9Y9338XtTcxkIJtgOl-MviQXP45ZjkBWkzJ-OkfEoRY0ikUhPA9chqCHmEzXbW5l8UIJ65tuOUE9tVQJ4DR6gV_P7gFQrk0Qu7BopEh3k4x1-5M4uTXVG1DvDtc5sDNCqE-x_3oRoAuPSS9qPHL-plbOwZS3NSMd2CQ-vL1uYdbxkF_z1X0hWExhSMZFA-vd9ZEjpQNoJ44Uaf1kpHM0AoAJ_bbyduzjZ"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<button class="bg-white/20 backdrop-blur-md text-white px-6 py-2.5 rounded-full font-bold text-sm border border-white/30">
+                            Open Indoor Map
+                        </button>
+</div>
+<div class="absolute bottom-4 left-4">
+<span class="text-white text-xs font-bold bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">Level 2: Main Hall</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8 border-t border-slate-200 dark:border-slate-800">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto">
+<div class="mb-6 md:mb-0">
+<span class="text-lg font-bold text-slate-900 dark:text-white">EventPilot AI</span>
+<p class="font-inter text-sm text-slate-500 mt-2">© 2024 EventPilot AI. Precision Event Intelligence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm font-inter" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm font-inter" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm font-inter" href="#">API Documentation</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors hover:underline decoration-indigo-500/30 text-sm font-inter" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</body></html>

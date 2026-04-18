@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Venue Navigation | EventPilot AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#25005a",
+                    "surface-container-high": "#e6e8ea",
+                    "outline": "#777587",
+                    "secondary": "#712ae2",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#8a4cfc",
+                    "tertiary-fixed": "#e3dfff",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#dad7ff",
+                    "primary-container": "#4f46e5",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181445",
+                    "surface-tint": "#4d44e3",
+                    "background": "#f7f9fb",
+                    "outline-variant": "#c7c4d8",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#444173",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#5d5b8e",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#c4c1fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#dcd8ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-container": "#eceef0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary": "#464375",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-variant": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-transition { transition: background-color 0.3s ease; }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-indigo-500/5 h-20">
+<nav class="flex justify-between items-center px-8 h-full max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-indigo-600 to-violet-600 bg-clip-text text-transparent font-headline tracking-tight">EventPilot AI</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 font-medium font-headline tracking-tight hover:text-indigo-500 transition-colors" href="#">Dashboard</a>
+<a class="text-indigo-700 border-b-2 border-indigo-600 pb-1 font-semibold font-headline tracking-tight" href="#">Schedule</a>
+<a class="text-slate-500 font-medium font-headline tracking-tight hover:text-indigo-500 transition-colors" href="#">Intelligence</a>
+<a class="text-slate-500 font-medium font-headline tracking-tight hover:text-indigo-500 transition-colors" href="#">Networking</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">settings</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-full font-headline font-semibold text-sm shadow-lg shadow-primary/20 active:opacity-80 transition-all">Get Insights</button>
+</div>
+</nav>
+</header>
+<main class="pt-20 min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Navigation Sidebar -->
+<aside class="w-full md:w-[420px] h-[calc(100vh-5rem)] overflow-y-auto bg-surface-container-low flex flex-col z-40">
+<div class="p-6 space-y-6">
+<!-- Search & Filters -->
+<div class="space-y-4">
+<h1 class="text-3xl font-extrabold font-headline text-on-surface tracking-tight">Venue Navigator</h1>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 text-sm font-medium" placeholder="Search facilities, booths, or rooms..." type="text"/>
+</div>
+<!-- Accessibility Toggle -->
+<div class="flex items-center justify-between p-4 bg-secondary-fixed rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-secondary-fixed-variant" style="font-variation-settings: 'FILL' 1;">accessible</span>
+<span class="text-sm font-semibold text-on-secondary-fixed font-headline">Accessibility-friendly</span>
+</div>
+<button class="relative inline-flex h-6 w-11 items-center rounded-full bg-secondary-container">
+<span class="inline-block h-4 w-4 transform translate-x-6 rounded-full bg-white transition-transform"></span>
+</button>
+</div>
+</div>
+<!-- Destination Quick Access (Asymmetric Grid) -->
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 group p-4 bg-surface-container-lowest rounded-xl flex items-center justify-between hover:bg-primary/5 transition-colors">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-indigo-50 text-primary rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+<span class="font-headline font-bold text-sm">Registration Desk</span>
+</div>
+<span class="text-xs font-bold text-primary font-label">LEVEL 1</span>
+</button>
+<button class="p-4 bg-surface-container-lowest rounded-xl flex flex-col gap-3 items-start hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+<span class="font-headline font-bold text-sm">Food Court</span>
+</button>
+<button class="p-4 bg-surface-container-lowest rounded-xl flex flex-col gap-3 items-start hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-secondary">wc</span>
+<span class="font-headline font-bold text-sm">Restrooms</span>
+</button>
+<button class="p-4 bg-surface-container-lowest rounded-xl flex flex-col gap-3 items-start hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-secondary">medical_services</span>
+<span class="font-headline font-bold text-sm">First Aid</span>
+</button>
+<button class="p-4 bg-surface-container-lowest rounded-xl flex flex-col gap-3 items-start hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-secondary">meeting_room</span>
+<span class="font-headline font-bold text-sm">Lounge</span>
+</button>
+</div>
+<!-- Route Preview Rail -->
+<div class="bg-surface-container-lowest rounded-xl p-6 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-extrabold text-lg">Route Preview</h3>
+<span class="text-xs font-bold text-secondary-container bg-secondary-fixed-dim px-2 py-1 rounded">FASTEST</span>
+</div>
+<div class="relative pl-8 space-y-8">
+<!-- Timeline Rail -->
+<div class="absolute left-[11px] top-2 bottom-2 w-0.5 bg-outline-variant/30"></div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-primary-fixed-dim shadow-[0_0_12px_rgba(53,37,205,0.4)]"></div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider font-label">Current Location</p>
+<p class="font-headline font-bold text-sm">Main Entrance Lobby</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[25px] top-1 w-3 h-3 rounded-full bg-outline-variant"></div>
+<div>
+<p class="text-xs font-semibold text-outline font-label">200m • 3 min</p>
+<p class="text-sm font-medium text-on-surface-variant">Head North towards Hall B, take the escalators to Level 2.</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-secondary ring-4 ring-secondary-fixed-dim shadow-[0_0_12px_rgba(113,42,226,0.4)]"></div>
+<div>
+<p class="text-xs font-bold text-secondary uppercase tracking-wider font-label">Destination</p>
+<p class="font-headline font-bold text-sm">Innovation Theater (Room 204)</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-headline font-bold shadow-xl shadow-primary/20 active:opacity-90">
+                        Start Navigation
+                    </button>
+</div>
+</div>
+</aside>
+<!-- Map Canvas -->
+<section class="flex-1 relative bg-surface-container overflow-hidden">
+<!-- Simulated High-Quality Venue Map -->
+<div class="absolute inset-0 w-full h-full">
+<img class="w-full h-full object-cover opacity-80" data-alt="Modern architectural blueprint floor plan with clean lines and glowing paths on a digital interface background with soft blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALX2nYUpO9xfRobUfOdmbGZ9lV9bW19ZjMGnOgJzdygQaaKiJCWVl4rJXkKe8HegFjkpWTUzoshCCl5JpVSrdBmE4GUMkAE1VQWvZdIYObA3GMN7IqH_pVf7sqe8NXZ2k_IVv777kC0UEFzBI6c_tVIHzuc9ykfdxSDhc6jCp6gK-NuzA3gZObi1c6Owm8RYqrR7DKNZw_tXnVzniCCHxWhwRwxUrvsbgGZMpaue0H6qDDQhy_Ul27ISSarX-7G-H3gGA-FiDvyUBv"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-surface/40 to-transparent"></div>
+</div>
+<!-- Floating UI Elements on Map -->
+<div class="absolute top-8 left-8 flex flex-col gap-3">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md p-2 rounded-xl flex flex-col gap-2 shadow-xl shadow-indigo-900/10">
+<button class="p-3 hover:bg-surface-container-high rounded-lg transition-colors"><span class="material-symbols-outlined">add</span></button>
+<div class="h-px bg-outline-variant/20 mx-2"></div>
+<button class="p-3 hover:bg-surface-container-high rounded-lg transition-colors"><span class="material-symbols-outlined">remove</span></button>
+</div>
+<button class="bg-surface-container-lowest/80 backdrop-blur-md p-3 rounded-xl shadow-xl shadow-indigo-900/10 text-primary">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Floor Selector -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 glass-panel p-2 rounded-full flex gap-1 shadow-2xl">
+<button class="px-6 py-2 rounded-full text-sm font-bold font-headline transition-all hover:bg-white/50">L1</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold font-headline bg-primary text-white shadow-lg">L2</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold font-headline transition-all hover:bg-white/50">L3</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold font-headline transition-all hover:bg-white/50">Roof</button>
+</div>
+<!-- AI Insight Widget -->
+<div class="absolute top-8 right-8 w-72 bg-secondary-container/90 backdrop-blur-xl p-5 rounded-xl shadow-2xl text-on-secondary-container">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-xs font-bold tracking-widest font-label uppercase">AI Intelligence</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">Hall B is currently experiencing <span class="font-bold underline decoration-secondary-fixed">high traffic</span>. Alternative route through North Corridor recommended to save 4 minutes.</p>
+</div>
+<!-- Live Pins (Decorative Layers) -->
+<div class="absolute top-1/2 left-1/3 group cursor-pointer">
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/20 rounded-full animate-ping"></div>
+<div class="relative w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white shadow-lg ring-4 ring-white">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 hidden group-hover:block w-40 glass-panel p-3 rounded-xl shadow-2xl">
+<p class="text-xs font-bold text-primary font-headline">YOU ARE HERE</p>
+<p class="text-sm font-bold text-on-surface">Main Entrance</p>
+</div>
+</div>
+<div class="absolute top-1/4 right-1/4 group cursor-pointer">
+<div class="relative w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white shadow-lg ring-4 ring-white">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">theater_comedy</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 hidden group-hover:block w-48 glass-panel p-3 rounded-xl shadow-2xl">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<p class="text-xs font-bold text-secondary font-headline">LIVE NOW</p>
+</div>
+<p class="text-sm font-bold text-on-surface">Keynote: Future of AI</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto border-t border-slate-200 dark:border-slate-800 pt-12">
+<div class="mb-8 md:mb-0">
+<span class="text-lg font-bold text-slate-900 dark:text-white">EventPilot AI</span>
+<p class="font-inter text-sm text-slate-500 mt-2">© 2024 EventPilot AI. Precision Event Intelligence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors text-sm font-inter hover:underline decoration-indigo-500/30" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors text-sm font-inter hover:underline decoration-indigo-500/30" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors text-sm font-inter hover:underline decoration-indigo-500/30" href="#">API Documentation</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors text-sm font-inter hover:underline decoration-indigo-500/30" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</body></html>

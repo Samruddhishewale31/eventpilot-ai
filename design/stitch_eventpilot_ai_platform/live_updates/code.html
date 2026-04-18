@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Updates | EventPilot AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#25005a",
+                    "surface-container-high": "#e6e8ea",
+                    "outline": "#777587",
+                    "secondary": "#712ae2",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#8a4cfc",
+                    "tertiary-fixed": "#e3dfff",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#dad7ff",
+                    "primary-container": "#4f46e5",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181445",
+                    "surface-tint": "#4d44e3",
+                    "background": "#f7f9fb",
+                    "outline-variant": "#c7c4d8",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#444173",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#5d5b8e",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#c4c1fb",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#dcd8ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-container": "#eceef0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary": "#464375",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-variant": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-transition { transition: background-color 0.3s ease; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        .pulsing-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-indigo-500/5 h-20 px-8 flex justify-between items-center max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-indigo-600 to-violet-600 bg-clip-text text-transparent font-headline">EventPilot AI</span>
+<div class="hidden md:flex gap-6 items-center font-headline font-semibold tracking-tight">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors" href="#">Schedule</a>
+<a class="text-indigo-700 border-b-2 border-indigo-600 pb-1" href="#">Intelligence</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors" href="#">Networking</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search updates..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-500 hover:text-indigo-600 transition-colors">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:text-indigo-600 transition-colors">settings</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-full font-headline font-bold text-sm shadow-lg shadow-indigo-500/20 active:opacity-80 duration-200">Get Insights</button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Hero Header -->
+<header class="mb-16 relative">
+<div class="max-w-2xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="flex h-2 w-2 rounded-full bg-secondary pulsing-dot"></span>
+<span class="text-xs font-bold tracking-widest text-secondary uppercase font-label">Live Activity Feed</span>
+</div>
+<h1 class="text-5xl md:text-6xl font-black font-headline text-on-surface tracking-tight mb-6">
+                    Intelligence <span class="text-primary italic">Now.</span>
+</h1>
+<p class="text-lg text-on-surface-variant leading-relaxed font-body">
+                    Stay synchronized with real-time room changes, session delays, and AI-curated networking triggers.
+                </p>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl -z-10"></div>
+<!-- Main Feed Content: Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Urgent & High Priority Column (Left - 5 Cols) -->
+<div class="lg:col-span-5 space-y-8">
+<div class="flex items-end justify-between mb-4">
+<h2 class="text-2xl font-black font-headline tracking-tight">Urgent Alerts</h2>
+<span class="text-sm font-medium text-primary">2 Active Alerts</span>
+</div>
+<!-- High Priority Card 1 -->
+<div class="bg-secondary-container rounded-2xl p-8 text-on-secondary-container shadow-2xl shadow-secondary/20 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest">Urgent</span>
+<span class="text-xs opacity-80 font-medium">10:42 AM</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-3 leading-tight">Keynote Room Change: Hall A → Emerald Suite</h3>
+<p class="text-on-secondary-container/90 mb-6 font-body leading-relaxed">
+                        The "Future of Generative AI" keynote has been moved to the Emerald Suite due to higher than expected attendance. Please proceed to Level 4.
+                    </p>
+<div class="flex gap-3">
+<button class="bg-white text-secondary font-bold px-6 py-2 rounded-full text-sm hover:bg-surface-bright transition-colors">Show Map</button>
+<button class="text-white/80 font-bold px-6 py-2 rounded-full text-sm hover:bg-white/10 transition-colors">Dismiss</button>
+</div>
+</div>
+<!-- High Priority Card 2 -->
+<div class="bg-white rounded-2xl p-8 border border-outline-variant/15 shadow-sm relative">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[10px] font-bold uppercase tracking-widest">Delay</span>
+<span class="text-xs text-on-surface-variant font-medium">9:15 AM</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-2 text-on-surface">Main Workshop Delay</h3>
+<p class="text-on-surface-variant font-body mb-4">
+                        The "Ethics in Enterprise" workshop is delayed by 15 minutes. Starting now at 10:45 AM.
+                    </p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<img alt="Speaker 1" class="w-8 h-8 rounded-full border-2 border-white" data-alt="professional portrait of a tech conference speaker with soft studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiBD6yfWrnA0fAv75xqyTIePLNsvoWjfWqbjGFbpEE6sjTkWFgiGevQO6phe2uhCAYVELlzpWYQM5EUtDACzpA4xvR6wOMa9H_elbazyS80QDW-YepNUHxC66rp63hjUx4NmTvkhV-QxJCugQWBBmV741MCcahZEVmoahvZzB4pP6ZfY1PA-4hSrQwuvRyHEslp9puZXRnD7B76GlxDzswjMsO_sSLI4njbF9ITh2PqtVLnJBdZ5XbwxQFcAb2pcAUDaQu8t7hR46n"/>
+<img alt="Speaker 2" class="w-8 h-8 rounded-full border-2 border-white" data-alt="portrait of a female business executive wearing glasses in soft natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA6AgXzPzYMVZa8OuuSLE13h5v5QVI9GK2TBDFD0G6HogIreH3zsfSN0qXSkN-SiqhtaATa56SMbPS2b9Cll3z49aMRgDfNcOpL7l3Vav6UZB8Foh_zZXk7y1kBuZxFMJNeggO9iGIuKFQh5Yqd4K8IL-A_4yjidP3YFSY4c9Utwr5KcCHKPJUcLLsHX9ngogi1bhCzzDdh01FqYXuna3n2pzf_jizvUU4O3o5IRnoCd72KyvDxJsVbNSMCBDn0YADMR-3IdJMM8wL"/>
+</div>
+<span class="text-xs text-on-surface-variant font-medium">+ Dr. Aris Thorne</span>
+</div>
+</div>
+<!-- Secondary Intelligence Card -->
+<div class="bg-surface-container-low rounded-2xl p-6 relative group overflow-hidden">
+<div class="flex items-center gap-4 mb-4">
+<div class="p-3 bg-primary/10 rounded-xl">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary font-label uppercase tracking-widest">AI Insight</p>
+<h4 class="font-headline font-bold text-on-surface">Networking Opportunity</h4>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                        Based on your profile, 3 industry leaders from <strong>CloudScale Systems</strong> just arrived at the Networking Lounge.
+                    </p>
+<button class="mt-4 w-full py-3 bg-surface-container-highest text-on-surface font-bold text-sm rounded-xl hover:bg-surface-dim transition-colors">View Profiles</button>
+</div>
+</div>
+<!-- Feed Timeline Column (Right - 7 Cols) -->
+<div class="lg:col-span-7">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-black font-headline tracking-tight">Timeline Feed</h2>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface font-bold text-xs">All</button>
+<button class="px-4 py-1.5 rounded-full text-on-surface-variant font-bold text-xs hover:bg-surface-container-low">Announcements</button>
+<button class="px-4 py-1.5 rounded-full text-on-surface-variant font-bold text-xs hover:bg-surface-container-low">My Schedule</button>
+</div>
+</div>
+<div class="space-y-6 relative">
+<!-- Timeline Vertical Rail -->
+<div class="absolute left-6 top-0 bottom-0 w-[2px] bg-outline-variant/20 z-0"></div>
+<!-- Feed Item 1 -->
+<div class="relative pl-16 py-2 group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary border-4 border-surface rounded-full z-10 shadow-[0_0_12px_rgba(53,37,205,0.4)]"></div>
+<div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-on-surface-variant font-label">LIVE NOW</span>
+<span class="text-[10px] text-slate-400">11:00 AM</span>
+</div>
+<h4 class="font-headline font-bold text-lg text-on-surface mb-2">Morning Coffee Break Sponsored by Vertex</h4>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed">
+                                Head to the Exhibition Hall for freshly brewed coffee and gourmet pastries. Meet the Vertex engineering team at Booth #42.
+                            </p>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="relative pl-16 py-2 group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-outline-variant border-4 border-surface rounded-full z-10"></div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-on-surface-variant font-label">REMINDER</span>
+<span class="text-[10px] text-slate-400">10:55 AM</span>
+</div>
+<h4 class="font-headline font-bold text-lg text-on-surface mb-2">Workshop Sign-ups Closing</h4>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed">
+                                Only 5 spots remaining for the "Scaling Human-Centric AI" afternoon session. Confirm your slot in the app.
+                            </p>
+</div>
+</div>
+<!-- Feed Item 3 (With Image) -->
+<div class="relative pl-16 py-2 group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-outline-variant border-4 border-surface rounded-full z-10"></div>
+<div class="bg-white p-6 rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row gap-6">
+<div class="md:w-1/3 h-32 rounded-xl overflow-hidden">
+<img alt="Event View" class="w-full h-full object-cover" data-alt="vibrant modern tech conference exhibition hall with glowing neon branding futuristic booths and bright atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3Gtz_HDEygF0rvVxo6w6Am3Douk_gIb7NOy3ZE25WAT8bi0EKR-asNdDEYENWZyM7_m7LEZja4R1vZ7axa55fQHLCK2_5IqmDO_UQmYnRmzHfg1zNcCsp0MfdtKgFsXUg3_oQHzL7hLSjTNDCER7ESpm3xAKo64FIelE86gu0SgD5G5kqJB1YzfNHDS9Pu4vI20pjrjL0FaeT1TDhOViqm6YzaoWUp3hYbzUAMelON-i7bLXN0Eju5v9b7CyYmkVwuK16Xu9PUIqO"/>
+</div>
+<div class="md:w-2/3">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-on-surface-variant font-label">PHOTO UPDATE</span>
+<span class="text-[10px] text-slate-400">10:30 AM</span>
+</div>
+<h4 class="font-headline font-bold text-lg text-on-surface mb-1">Main Stage Setup Complete</h4>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed">
+                                    The grand opening begins in 90 minutes. Arrive early for premium seating.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Feed Item 4 -->
+<div class="relative pl-16 py-2 group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-outline-variant border-4 border-surface rounded-full z-10"></div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold text-on-surface-variant font-label">ANNOUNCEMENT</span>
+<span class="text-[10px] text-slate-400">09:00 AM</span>
+</div>
+<h4 class="font-headline font-bold text-lg text-on-surface mb-2">Welcome to EventPilot AI Summit</h4>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed">
+                                We're thrilled to have you here. Use the Intelligence tab to discover curated connections and hidden insights throughout the day.
+                            </p>
+</div>
+</div>
+</div>
+<button class="mt-8 w-full py-4 border-2 border-dashed border-outline-variant/30 text-on-surface-variant font-bold text-sm rounded-2xl hover:bg-surface-container-low transition-colors">
+                    Load Previous Updates
+                </button>
+</div>
+</div>
+</header></main>
+<!-- Footer Shell -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8 mt-24">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto border-t border-slate-200 pt-8">
+<div class="mb-6 md:mb-0">
+<span class="text-lg font-bold text-slate-900 font-headline">EventPilot AI</span>
+<p class="font-inter text-sm text-slate-500 mt-2">© 2024 EventPilot AI. Precision Event Intelligence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-inter text-sm text-slate-500 hover:text-indigo-500 hover:underline decoration-indigo-500/30 transition-colors" href="#">Privacy Policy</a>
+<a class="font-inter text-sm text-slate-500 hover:text-indigo-500 hover:underline decoration-indigo-500/30 transition-colors" href="#">Terms of Service</a>
+<a class="font-inter text-sm text-slate-500 hover:text-indigo-500 hover:underline decoration-indigo-500/30 transition-colors" href="#">API Documentation</a>
+<a class="font-inter text-sm text-slate-500 hover:text-indigo-500 hover:underline decoration-indigo-500/30 transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<!-- Mobile Navigation Shell -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 glass-card p-4 border-t border-outline-variant/10 z-50 flex justify-around items-center">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-bold">Schedule</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="text-[10px] font-bold">Live</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold">People</span>
+</button>
+</div>
+</body></html>
