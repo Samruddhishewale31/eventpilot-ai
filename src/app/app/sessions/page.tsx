@@ -20,6 +20,8 @@ import {
 import { useStore } from "@/store/useStore";
 import { mockSpeakers, mockRooms } from "@/data/mock";
 import { SessionDetailDrawer } from "@/components/sessions/SessionDetailDrawer";
+import { analytics } from "@/lib/firebase";
+import { logEvent } from "firebase/analytics";
 
 export default function SessionsPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -139,7 +141,14 @@ export default function SessionsPage() {
                   }`}>
                     <div className="absolute top-4 right-4 z-10">
                       <button 
-                        onClick={(e) => { e.stopPropagation(); toggleSessionSave(session.id); }}
+                        onClick={(e) => { 
+                          e.stopPropagation(); 
+                          const isCurrentlySaved = savedSessionIds.includes(session.id);
+                          toggleSessionSave(session.id); 
+                          if (!isCurrentlySaved && analytics) {
+                            logEvent(analytics, "session_saved", { sessionId: session.id, title: session.title });
+                          }
+                        }}
                         className={`p-3 rounded-2xl shadow-xl transition-all active:scale-90 border-2 ${
                           isSaved 
                             ? 'bg-primary border-primary text-white' 

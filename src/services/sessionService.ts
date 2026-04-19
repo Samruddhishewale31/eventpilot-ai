@@ -21,3 +21,15 @@ export async function getRooms(): Promise<Room[]> {
   await new Promise(resolve => setTimeout(resolve, 200));
   return mockRooms;
 }
+
+export function checkConflicts(agenda: Session[], newSession: Session): Session[] {
+  return agenda.filter(existing => {
+    const startA = new Date(existing.startTime).getTime();
+    const endA = new Date(existing.endTime).getTime();
+    const startB = new Date(newSession.startTime).getTime();
+    const endB = new Date(newSession.endTime).getTime();
+
+    return (startA < endB && startB < endA);
+  });
+}
+

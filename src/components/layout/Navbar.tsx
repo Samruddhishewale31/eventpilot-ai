@@ -71,10 +71,10 @@ export function Navbar() {
         {/* Action Menu */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 mr-2">
-             <button className="p-3 rounded-2xl text-muted-foreground hover:bg-muted hover:text-primary transition-all">
+             <button className="p-3 rounded-2xl text-muted-foreground hover:bg-muted hover:text-primary transition-all" aria-label="Search">
                <Search className="w-5 h-5" />
              </button>
-             <button className="p-3 rounded-2xl text-muted-foreground hover:bg-muted hover:text-primary transition-all relative">
+             <button className="p-3 rounded-2xl text-muted-foreground hover:bg-muted hover:text-primary transition-all relative" aria-label="Notifications">
                <Bell className="w-5 h-5" />
                <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full border-2 border-background" />
              </button>
@@ -94,6 +94,7 @@ export function Navbar() {
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className="lg:hidden p-3 rounded-2xl bg-muted text-foreground hover:bg-primary hover:text-white transition-all ml-1"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

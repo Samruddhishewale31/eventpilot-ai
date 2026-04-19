@@ -1,13 +1,59 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, User, KeyRound, CheckCircle2, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
+import { signIn, signInWithGoogle, logGuestContinue, subscribeToAuthChanges } from "@/services/authService";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft, Sparkles, User, KeyRound, CheckCircle2, ArrowRight, ShieldAlert } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/firebase";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((user) => {
+      if (user) {
+        router.push("/app/dashboard");
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      await signIn(email, password);
+      router.push("/app/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Authentication failed. Please check your credentials.");
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await signInWithGoogle();
+      router.push("/app/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Google Sign-In failed.");
+      setLoading(false);
+    }
+  };
+
+  const handleGuestContinue = () => {
+    logGuestContinue();
+    router.push("/app/dashboard");
+  };
 
   return (
     <div className="min-h-screen flex w-full bg-background text-foreground font-sans selection:bg-primary/20">
@@ -95,15 +141,36 @@ export default function LoginPage() {
             <p className="text-lg text-muted-foreground font-medium leading-relaxed">Access your personalized event intelligence dashboard and nexus networking.</p>
           </div>
 
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setLoading(true); setTimeout(() => window.location.href='/app/dashboard', 800); }}>
+          <form className="space-y-6" onSubmit={handleEmailLogin}>
+            {!auth && (
+              <div className="p-5 rounded-[1.5rem] bg-indigo-500/10 border-2 border-primary/20 flex flex-col gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                    <ShieldAlert className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs font-black text-foreground uppercase tracking-widest">Autonomous Mode Active</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
+                  Real-time cloud engines are offline. You can still explore the platform via <span className="text-primary font-bold">Guest Entry</span> below.
+                </p>
+              </div>
+            )}
+            
+            {error && (
+              <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-bold animate-in fade-in slide-in-from-top-2">
+                {error}
+              </div>
+            )}
             <div className="space-y-5">
               <div className="space-y-2.5">
                 <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">Work Email</label>
                 <div className="relative group">
                   <User className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                  <input
+                   <input
                     type="email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-14 pr-6 py-5 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="alexander@stellar.systems"
                   />
@@ -117,9 +184,11 @@ export default function LoginPage() {
                 </div>
                 <div className="relative group">
                   <KeyRound className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                  <input
+                   <input
                     type="password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full pl-14 pr-6 py-5 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="••••••••"
                   />
@@ -146,14 +215,22 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            {[
-              { n: "Google", i: <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" /><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" /></svg> },
-              { n: "Github", i: <svg className="w-5 h-5 mr-3 text-foreground" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg> }
-            ].map(social => (
-              <button key={social.n} className="flex items-center justify-center w-full py-5 border-2 border-border/50 rounded-2xl hover:bg-muted font-black text-xs uppercase tracking-[0.1em] transition-all active:scale-95 shadow-sm">
-                {social.i} {social.n}
-              </button>
-            ))}
+             <button 
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={loading}
+              className="flex items-center justify-center w-full py-5 border-2 border-border/50 rounded-2xl hover:bg-muted font-black text-xs uppercase tracking-[0.1em] transition-all active:scale-95 shadow-sm"
+            >
+              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" /><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" /></svg>
+              Google
+            </button>
+            <button 
+              type="button"
+              className="flex items-center justify-center w-full py-5 border-2 border-border/50 rounded-2xl hover:bg-muted font-black text-xs uppercase tracking-[0.1em] transition-all active:scale-95 shadow-sm"
+            >
+              <svg className="w-5 h-5 mr-3 text-foreground" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              Github
+            </button>
           </div>
 
           <div className="flex flex-col gap-6 text-center pt-4">
@@ -165,9 +242,13 @@ export default function LoginPage() {
             </p>
             
             <div className="pt-10 border-t border-border/50">
-              <Link href="/app/dashboard" className="inline-flex items-center gap-3 text-sm font-black text-primary hover:text-indigo-700 tracking-[0.15em] uppercase transition-all group">
+               <button 
+                type="button"
+                onClick={handleGuestContinue}
+                className="inline-flex items-center gap-3 text-sm font-black text-primary hover:text-indigo-700 tracking-[0.15em] uppercase transition-all group"
+              >
                 Continue as anonymous Guest <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </button>
             </div>
           </div>
         </div>

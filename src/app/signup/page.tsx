@@ -1,13 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { signUp, subscribeToAuthChanges } from "@/services/authService";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, User, KeyRound, CheckCircle2, ArrowRight, Mail, Briefcase } from "lucide-react";
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Sparkles, User, KeyRound, CheckCircle2, ArrowRight, Mail, Briefcase, ShieldAlert } from "lucide-react";
+import { auth } from "@/lib/firebase";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((user) => {
+      if (user) {
+        router.push("/app/dashboard");
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      await signUp(email, password);
+      // In a real app, we would also save the profile data to Firestore
+      router.push("/app/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Registration failed. Please try again.");
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex w-full bg-background text-foreground font-sans selection:bg-primary/20 flex-row-reverse">
@@ -92,16 +125,38 @@ export default function SignupPage() {
             <p className="text-lg text-muted-foreground font-medium leading-relaxed">Join 15,000+ elite professionals in the next-gen event ecosystem.</p>
           </div>
 
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setLoading(true); setTimeout(() => window.location.href='/app/dashboard', 800); }}>
+          <form className="space-y-6" onSubmit={handleSignup}>
+            {!auth && (
+              <div className="p-5 rounded-[1.5rem] bg-amber-500/10 border-2 border-amber-500/20 flex flex-col gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-600">
+                    <ShieldAlert className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs font-black text-foreground uppercase tracking-widest">Read-Only Mode</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
+                  Real-time registration is temporarily restricted in this environment. Please use 
+                  <Link href="/login" className="text-primary font-bold ml-1">Guest Login</Link> instead.
+                </p>
+              </div>
+            )}
+            
+            {error && (
+              <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-bold animate-in fade-in slide-in-from-top-2">
+                {error}
+              </div>
+            )}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2.5 text-left">
                   <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">First Name</label>
                   <div className="relative group">
                     <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60 group-focus-within:text-primary transition-colors" />
-                    <input
+                     <input
                       type="text"
                       required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                       className="w-full pl-12 pr-4 py-4 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                       placeholder="Alexander"
                     />
@@ -109,9 +164,11 @@ export default function SignupPage() {
                 </div>
                 <div className="space-y-2.5 text-left">
                   <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">Last Name</label>
-                  <input
+                   <input
                     type="text"
                     required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-6 py-4 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="Dev"
                   />
@@ -122,9 +179,11 @@ export default function SignupPage() {
                 <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">Work Email</label>
                 <div className="relative group">
                   <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60 group-focus-within:text-primary transition-colors" />
-                  <input
+                   <input
                     type="email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-12 pr-4 py-4 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="alexander@stellar.systems"
                   />
@@ -135,9 +194,11 @@ export default function SignupPage() {
                 <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">Job Title</label>
                 <div className="relative group">
                   <Briefcase className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60 group-focus-within:text-primary transition-colors" />
-                  <input
+                   <input
                     type="text"
                     required
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
                     className="w-full pl-12 pr-4 py-4 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="Lead Architect"
                   />
@@ -148,9 +209,11 @@ export default function SignupPage() {
                 <label className="text-xs font-black uppercase tracking-widest text-foreground/50 ml-1">Secure Password</label>
                 <div className="relative group">
                   <KeyRound className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60 group-focus-within:text-primary transition-colors" />
-                  <input
+                   <input
                     type="password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full pl-12 pr-4 py-4 bg-muted/30 border-2 border-transparent focus:border-primary/20 focus:bg-background rounded-[1.5rem] text-sm font-bold transition-all outline-none shadow-sm"
                     placeholder="••••••••"
                   />

@@ -24,6 +24,19 @@ import {
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { mockRooms } from "@/data/mock";
+import { analytics } from "@/lib/firebase";
+import { logEvent } from "firebase/analytics";
+
+// Venue Locations for Markers
+const venueLocations = [
+  { name: "Keynote Hall", lat: 37.7833, lng: -122.4167, type: "major" },
+  { name: "Breakout Room A", lat: 37.7840, lng: -122.4170, type: "session" },
+  { name: "Breakout Room B", lat: 37.7830, lng: -122.4160, type: "session" },
+  { name: "Help Desk", lat: 37.7835, lng: -122.4163, type: "info" },
+  { name: "First Aid", lat: 37.7838, lng: -122.4158, type: "emergency" },
+  { name: "Registration", lat: 37.7828, lng: -122.4175, type: "info" },
+  { name: "Quiet Zone", lat: 37.7845, lng: -122.4165, type: "rest" },
+];
 
 export default function NavigationPage() {
   const [search, setSearch] = useState("");
@@ -45,10 +58,11 @@ export default function NavigationPage() {
     mockRooms.find(r => r.id === selectedRoomId) || null
   , [selectedRoomId]);
 
-  const handleRoute = (roomId: string) => {
+   const handleRoute = (roomId: string) => {
     setSelectedRoomId(roomId);
     setRouting(true);
     setSearch("");
+    if (analytics) logEvent(analytics, "navigation_started", { destinationId: roomId });
   };
 
   return (
@@ -224,10 +238,55 @@ export default function NavigationPage() {
           {/* Map & Visualization Side (8 Cols) */}
           <div className="lg:col-span-8 h-full bg-muted/20 rounded-[3rem] border-2 border-border relative overflow-hidden flex items-center justify-center min-h-[600px] shadow-inner">
              
+             {/* Integrated Google Maps Embed */}
+             <div className="absolute inset-0 z-0">
+               <iframe
+                 width="100%"
+                 height="100%"
+                 frameBorder="0"
+                 style={{ border: 0, filter: 'grayscale(0.2) contrast(1.1)' }}
+                 src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=37.7833,-122.4167&zoom=18&maptype=roadmap`}
+                 allowFullScreen
+                 loading="lazy"
+               ></iframe>
+             </div>
+
+             {/* Venue Overlay Information (Markers) */}
+             <div className="absolute inset-0 pointer-events-none z-10">
+                {venueLocations.map((loc, i) => (
+                  <div 
+                    key={i} 
+                    className="absolute"
+                    style={{ 
+                      top: `${40 + (i * 6)}%`, 
+                      left: `${35 + (i * 7)}%`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  >
+                    <div className="flex flex-col items-center">
+                      <div className="w-4 h-4 rounded-full bg-primary border-2 border-white shadow-lg animate-pulse" />
+                      <div className="mt-2 bg-background/95 backdrop-blur-md px-3 py-1.5 rounded-xl text-[9px] font-black uppercase text-foreground border-2 border-primary/20 shadow-xl whitespace-nowrap">
+                        {loc.name}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+             </div>
+
+             {/* Dynamic Destination Marker only when routing */}
+             {routing && selectedRoom && (
+                <div className="absolute top-[30%] right-[40%] z-20 flex flex-col items-center pointer-events-none animate-in fade-in zoom-in duration-500">
+                  <div className="bg-primary text-white h-10 px-5 rounded-2xl shadow-2xl font-black text-[10px] uppercase tracking-widest mb-3 flex items-center justify-center border-2 border-white/20">
+                    {selectedRoom.name}
+                  </div>
+                  <MapPin className="w-10 h-10 text-primary drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)]" />
+                </div>
+             )}
+             
              {/* Map Controls */}
              <div className="absolute top-8 right-8 z-30 flex flex-col gap-3">
-                <Button size="icon" className="w-12 h-12 rounded-2xl bg-card shadow-xl border border-border text-foreground hover:bg-muted active:scale-95"><Compass className="w-6 h-6" /></Button>
-                <Button size="icon" className="w-12 h-12 rounded-2xl bg-card shadow-xl border border-border text-foreground hover:bg-muted active:scale-95"><Layers className="w-6 h-6" /></Button>
+                <Button size="icon" className="w-12 h-12 rounded-2xl bg-card/90 backdrop-blur-md shadow-xl border border-border text-foreground hover:bg-muted active:scale-95"><Compass className="w-6 h-6" /></Button>
+                <Button size="icon" className="w-12 h-12 rounded-2xl bg-card/90 backdrop-blur-md shadow-xl border border-border text-foreground hover:bg-muted active:scale-95"><Layers className="w-6 h-6" /></Button>
              </div>
 
              {/* Floor Selector Tab */}
@@ -243,89 +302,15 @@ export default function NavigationPage() {
                 ))}
              </div>
 
-             {/* 3D Stylized Map Visualization */}
-             <div className="relative w-[90%] h-[90%] flex items-center justify-center">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--border)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
-                
-                <div className="w-full max-w-2xl aspect-[1.4/1] relative transform perspective-[1000px] rotate-X-[20deg] hover:rotate-X-[15deg] transition-all duration-700 ease-in-out">
-                   
-                   {/* Layered Floor Planes */}
-                   <div className="absolute inset-0 bg-white dark:bg-card border-4 border-border rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden z-20">
-                      
-                      {/* Stylized Floor Zones */}
-                      <div className="absolute top-0 right-0 w-1/3 h-full border-l-2 border-muted bg-muted/10" />
-                      <div className="absolute bottom-0 left-0 w-full h-1/4 border-t-2 border-muted bg-muted/10" />
-                      
-                      {/* Room Blocks */}
-                      <div className="absolute top-[10%] left-[10%] w-[25%] h-[20%] rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-center">
-                        <span className="text-[10px] font-black text-primary uppercase opacity-30">Main Stage</span>
-                      </div>
-                      <div className="absolute top-[40%] left-[10%] w-[35%] h-[25%] rounded-2xl bg-muted/30 border border-border flex items-center justify-center">
-                        <span className="text-[10px] font-black text-muted-foreground uppercase opacity-30">Atrium Central</span>
-                      </div>
-                      <div className="absolute top-[10%] right-[5%] w-[20%] h-[50%] rounded-2xl bg-secondary/5 border border-secondary/20 flex items-center justify-center">
-                        <span className="text-[10px] font-black text-secondary uppercase opacity-30 vertical-text">Exhibition</span>
-                      </div>
-
-                      {/* Animated Path */}
-                      {routing && (
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_12px_rgba(53,37,205,0.4)] z-30" viewBox="0 0 100 100" preserveAspectRatio="none">
-                          <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.2" />
-                            <stop offset="50%" stopColor="var(--primary)" stopOpacity="1" />
-                            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.2" />
-                          </linearGradient>
-                          <path 
-                            d="M 20 80 C 20 40, 50 40, 50 50 S 80 50, 80 20" 
-                            fill="none" 
-                            stroke="url(#pathGradient)" 
-                            strokeWidth="1.5" 
-                            strokeDasharray="4 4" 
-                            className="animate-path" 
-                          />
-                        </svg>
-                      )}
-
-                      {/* Dynamic Pins */}
-                      {routing && selectedRoom && (
-                        <>
-                          {/* Origin Pin */}
-                          <div className="absolute bottom-[20%] left-[20%] translate-y-2 z-40">
-                             <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center animate-pulse absolute -inset-0 opacity-40 scale-150" />
-                             <div className="relative w-5 h-5 rounded-full bg-primary border-[4px] border-white shadow-[0_10px_30px_rgba(0,0,0,0.3)]" />
-                             <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-foreground text-background px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest whitespace-nowrap shadow-2xl">Lobby Origin</div>
-                          </div>
-
-                          {/* Destination Pin */}
-                          <div className="absolute top-[20%] right-[20%] -translate-y-12 z-40 flex flex-col items-center">
-                              <div className="bg-primary text-white h-12 px-6 rounded-2xl shadow-2xl font-black text-xs uppercase tracking-[0.1em] mb-4 whitespace-nowrap animate-bounce flex items-center justify-center border-2 border-white/20">
-                                {selectedRoom.name}
-                              </div>
-                              <div className="relative">
-                                <MapPin className="w-12 h-12 text-primary drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]" />
-                                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-3 h-1 bg-black/40 blur-[2px] rounded-full" />
-                              </div>
-                          </div>
-                        </>
-                      )}
+             {/* Status UI Overlay only when not routing */}
+             {!routing && (
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-40 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                   <div className="bg-card/90 backdrop-blur-md px-8 py-4 rounded-full border-2 border-primary/20 shadow-2xl flex items-center gap-3">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Select target destination to begin live routing</span>
                    </div>
-
-                   {/* Beneath layers for 3D effect */}
-                   <div className="absolute inset-0 bg-border/20 rounded-[3rem] translate-y-6 translate-x-6 -z-10 blur-xl opacity-50" />
-                   <div className="absolute inset-0 bg-border/40 rounded-[3rem] translate-y-3 translate-x-3 -z-10" />
-                   <div className="absolute inset-0 bg-border/60 rounded-[3rem] translate-y-1 translate-x-1 -z-10" />
                 </div>
-
-                {/* Status UI Overlay only when not routing */}
-                {!routing && (
-                   <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-40 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                      <div className="bg-card/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-border shadow-2xl flex items-center gap-3">
-                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                         <span className="text-xs font-black text-foreground uppercase tracking-widest">Select target destination to begin live routing</span>
-                      </div>
-                   </div>
-                )}
-             </div>
+             )}
           </div>
         </div>
       </div>
