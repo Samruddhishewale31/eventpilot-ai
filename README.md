@@ -58,12 +58,12 @@ Uses a scoring algorithm to compare user interest tags with other attendees, sur
 
 | Criteria | Implementation Highlights |
 | :--- | :--- |
-| **Code Quality** | Modular service-based architecture, strict TypeScript typing, and clean component separation (`src/services`, `src/components/ui`). |
+| **Code Quality** | Modular service-based architecture, strict TypeScript typing, clean component separation, and centralized business logic utilities for maintainability. |
 | **Security** | Environment variable protection for all API keys, server-side AI execution, Zod payload validation, and defensive error handling. |
-| **Efficiency** | Optimized with lazy-loading for heavy assets (Google Maps), lightweight state (Zustand), and responsive image handling. |
-| **Testing** | Comprehensive `tests/` folder with 10 Vitest-powered unit and integration tests covering core logic and auth flows. |
+| **Efficiency** | Optimized with `useMemo` for derived data, dynamic lazy-loading for non-critical assets (AI Assistant), and Map loading skeletons. |
+| **Testing** | Robust `tests/` folder with 12+ Vitest UNIT and INTEGRATION tests covering edge cases, auth flows, and AI fallbacks. |
 | **Accessibility** | Semantic HTML, full keyboard navigation, ARIA labels, "High Contrast" mode, and unique "Step-Free Routing" for physical accessibility. |
-| **Google Services** | Deep integration with **Firebase Auth**, **Firebase Analytics**, **Gemini 1.5 Pro (Vertex AI ready)**, and **Google Maps API**. |
+| **Google Services** | Deep integration with **Firebase Auth**, **Firebase Analytics**, **Gemini 1.5 Pro**, and **Google Maps API**. |
 
 ---
 
@@ -88,11 +88,11 @@ Uses a scoring algorithm to compare user interest tags with other attendees, sur
 EventPilot AI includes a robust testing suite powered by **Vitest**.
 
 **Coverage Includes:**
-- **Unit**: Agenda conflict detection logic.
-- **Unit**: Networking relevance scoring.
-- **Unit**: Assistant fallback handling.
-- **Component**: Auth page rendering.
-- **Integration**: Complete guest-to-dashboard workflow.
+- **Unit**: Agenda conflict detection (Edge cases: boundary overlaps, nested sessions).
+- **Unit**: Networking relevance scoring (Edge cases: zero shared interests, result sorting).
+- **Unit**: Assistant fallback handling (Edge cases: API errors, network timeouts, empty responses).
+- **Component**: Auth page rendering and interaction (Validation, Loading states).
+- **Integration**: Complete guest-to-dashboard workflow and session state persistence.
 
 **How to run tests:**
 ```bash

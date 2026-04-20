@@ -31,32 +31,43 @@ import {
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import Link from "next/link";
+import { getRecommendedSessions, sessionUtils } from "@/utils/sessionUtils";
+import { useMemo } from "react";
 
 export default function DashboardPage() {
-  const [recommendedSessions, setRecommendedSessions] = useState<Session[]>([]);
-  const [updates, setUpdates] = useState<Announcement[]>([]);
-  const [matches, setMatches] = useState<NetworkMatch[]>([]);
+  const [allSessions, setAllSessions] = useState<Session[]>([]);
+  const [allAnnouncements, setAllAnnouncements] = useState<Announcement[]>([]);
+  const [allMatches, setAllMatches] = useState<NetworkMatch[]>([]);
   const [loading, setLoading] = useState(true);
 
   const user = useStore(state => state.user);
 
   useEffect(() => {
+    // Fetch all required data in parallel for efficiency
     Promise.all([
       getSessions(),
       getAnnouncements(),
       getNetworkingRecommendations()
     ]).then(([sessionsData, updatesData, networkData]) => {
-      // Logic for recommendations: sessions matching user interests or live
-      const recommended = sessionsData.filter(s => 
-        s.status === 'live' || s.tags.some(tag => user?.interests.includes(tag))
-      ).slice(0, 2);
-      
-      setRecommendedSessions(recommended);
-      setUpdates(updatesData.slice(0, 2));
-      setMatches(networkData.slice(0, 3));
+      setAllSessions(sessionsData);
+      setAllAnnouncements(updatesData);
+      setAllMatches(networkData);
       setLoading(false);
     });
-  }, [user]);
+  }, []);
+
+  // Memoize recommendations to avoid recalculation on unrelated re-renders
+  const recommendedSessions = useMemo(() => 
+    getRecommendedSessions(allSessions, user)
+  , [allSessions, user]);
+
+  const updates = useMemo(() => 
+    allAnnouncements.slice(0, 2)
+  , [allAnnouncements]);
+
+  const matches = useMemo(() => 
+    allMatches.slice(0, 3)
+  , [allMatches]);
 
   return (
     <div className="flex-1 w-full bg-background min-h-screen">
@@ -139,7 +150,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <div className="p-6 flex flex-col flex-1">
-                      <span className="text-[10px] font-black text-primary tracking-widest uppercase mb-2 block">{session.track} • {session.startTime.split('T')[1].substring(0, 5)}</span>
+                      <span className="text-[10px] font-black text-primary tracking-widest uppercase mb-2 block">{session.track} • {sessionUtils.getStartTime(session)}</span>
                       <h3 className="font-headline text-xl font-bold mb-3 leading-tight text-foreground group-hover:text-primary transition-colors">{session.title}</h3>
                       <p className="text-muted-foreground text-sm mb-6 line-clamp-2 leading-relaxed">{session.description}</p>
                       
@@ -201,10 +212,10 @@ export default function DashboardPage() {
                   <div key={i} className="relative pl-8 group">
                     <div className={`absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-card shadow-lg ${i === 0 ? 'bg-secondary animate-pulse scale-125' : 'bg-border'}`}></div>
                     <span className="text-[10px] font-black text-muted-foreground tracking-widest uppercase mb-1 block">
-                      {i === 0 ? 'Ongoing' : 'Coming Up'} • {s.startTime.split('T')[1].substring(0, 5)}
+                      {i === 0 ? 'Ongoing' : 'Coming Up'} • {sessionUtils.getStartTime(s)}
                     </span>
                     <h4 className="font-bold text-foreground text-sm mb-1 group-hover:text-primary transition-colors">{s.title}</h4>
-                    <p className="text-xs font-medium text-muted-foreground">Room {s.roomId}</p>
+                    <p className="text-xs font-medium text-muted-foreground">{sessionUtils.getRoomName(s)}</p>
                   </div>
                 ))}
               </div>

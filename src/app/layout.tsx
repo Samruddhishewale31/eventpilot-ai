@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
-import { AIAssistant } from "@/components/assistant/AIAssistant";
+import { AssistantWrapper } from "@/components/assistant/AssistantWrapper";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
@@ -33,7 +33,7 @@ export default function RootLayout({
           <main className="flex-1 flex flex-col pt-24 md:pt-32">
             {children}
           </main>
-          <AIAssistant />
+          <AssistantWrapper />
         </SettingsProvider>
       </body>
     </html>

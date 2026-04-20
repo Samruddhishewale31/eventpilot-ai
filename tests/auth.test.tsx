@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import LoginPage from '@/app/login/page';
+import * as authService from '@/services/authService';
 
 // Mock useRouter
 vi.mock('next/navigation', () => ({
@@ -19,10 +20,37 @@ describe('Login Page Rendering', () => {
     expect(screen.getByRole('button', { name: /Enter Platform/i })).toBeInTheDocument();
   });
 
-  it('should render social login buttons', () => {
+  it('should allow typing in email and password fields', () => {
+    const { fireEvent } = require('@testing-library/react');
     render(<LoginPage />);
     
-    expect(screen.getByText(/Google/i)).toBeInTheDocument();
-    expect(screen.getByText(/Github/i)).toBeInTheDocument();
+    const emailInput = screen.getByPlaceholderText(/alexander@stellar.systems/i) as HTMLInputElement;
+    const passwordInput = screen.getByPlaceholderText(/••••••••/i) as HTMLInputElement;
+    
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    
+    expect(emailInput.value).toBe('test@example.com');
+    expect(passwordInput.value).toBe('password123');
+  });
+
+  it('should show loading state on form submission', async () => {
+    const { fireEvent, waitFor } = require('@testing-library/react');
+    const signInSpy = vi.spyOn(authService, 'signIn').mockImplementation(() => new Promise(() => {})); 
+    
+    render(<LoginPage />);
+    
+    const emailInput = screen.getByPlaceholderText(/alexander@stellar.systems/i);
+    const passwordInput = screen.getByPlaceholderText(/••••••••/i);
+    const submitButton = screen.getByRole('button', { name: /Enter Platform/i });
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(submitButton);
+    
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+      expect(screen.getByText(/Authenticating/i)).toBeInTheDocument();
+    }, { timeout: 2000 });
   });
 });

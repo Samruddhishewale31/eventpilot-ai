@@ -20,4 +20,16 @@ describe('Networking Match Scoring', () => {
       expect(recommendations[i].matchScore).toBeGreaterThanOrEqual(recommendations[i+1].matchScore);
     }
   });
+
+  it('should have a base score of 80 even with zero shared interests', async () => {
+    const recommendations = await getNetworkingRecommendations();
+    
+    // Find a match with zero shared interests if it exists, or verify the logic
+    recommendations.forEach(match => {
+      if (match.sharedInterests.length === 0) {
+        expect(match.matchScore).toBe(80);
+        expect(match.reason).toBe("Profiles highly match your industry role.");
+      }
+    });
+  });
 });

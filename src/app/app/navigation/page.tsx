@@ -43,6 +43,7 @@ export default function NavigationPage() {
   const [routing, setRouting] = useState(false);
   const [activeFloor, setActiveFloor] = useState(1);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+  const [mapLoading, setMapLoading] = useState(true);
 
   const stepFree = useStore(state => state.settings.stepFreeRoutes);
 
@@ -240,13 +241,20 @@ export default function NavigationPage() {
              
              {/* Integrated Google Maps Embed */}
              <div className="absolute inset-0 z-0">
+               {mapLoading && (
+                 <div className="absolute inset-0 bg-muted/40 animate-pulse flex flex-col items-center justify-center gap-4">
+                   <div className="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Initializing Venue Atlas...</p>
+                 </div>
+               )}
                <iframe
                  width="100%"
                  height="100%"
                  frameBorder="0"
-                 style={{ border: 0, filter: 'grayscale(0.2) contrast(1.1)' }}
+                 style={{ border: 0, filter: 'grayscale(0.2) contrast(1.1)', opacity: mapLoading ? 0 : 1 }}
                  src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=37.7833,-122.4167&zoom=18&maptype=roadmap`}
                  allowFullScreen
+                 onLoad={() => setMapLoading(false)}
                  loading="lazy"
                ></iframe>
              </div>

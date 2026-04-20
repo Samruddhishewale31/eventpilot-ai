@@ -1,3 +1,10 @@
+/**
+ * Authentication Service
+ * 
+ * Provides a unified interface for Firebase Authentication flows.
+ * Handles Email/Password, Google OAuth, and Guest tracking.
+ * Integrates with Firebase Analytics for conversion tracking.
+ */
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
